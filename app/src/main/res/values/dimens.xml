@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="left_padding">16dp</dimen>
+    <dimen name="none">0dp</dimen>
+    <dimen name="padding_between_cards">8dp</dimen>
+    <dimen name="right_padding">16dp</dimen>
+</resources>
