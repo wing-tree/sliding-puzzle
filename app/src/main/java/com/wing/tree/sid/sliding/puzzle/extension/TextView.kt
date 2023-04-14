@@ -1,10 +1,13 @@
 package com.wing.tree.sid.sliding.puzzle.extension
 
 import android.widget.TextView
+import androidx.annotation.StringRes
 import com.wing.tree.sid.core.extension.negative
 import kotlin.math.roundToInt
 
-fun TextView.adjustPadding() {
+fun TextView.setDongleText(text: CharSequence) {
+    this.text = text
+
     val fontMetrics = paint.fontMetrics
     val ascent = fontMetrics.ascent
     val top = fontMetrics.top
@@ -15,4 +18,8 @@ fun TextView.adjustPadding() {
         paddingRight,
         paddingBottom
     )
+}
+
+fun TextView.setDongleText(@StringRes resid: Int) {
+    setDongleText(resources.getString(resid))
 }
