@@ -91,9 +91,9 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
                             when (viewState) {
                                 is PlayViewState.Content.Playing -> {
                                     val puzzle = viewState.puzzle
+                                    val text = puzzle.playTime.format()
 
-                                    viewBinding.playTime.text = puzzle.playTime.format()
-
+                                    viewBinding.playTime.setDongleText(text)
                                     tileListAdapter.submitList(puzzle.tiles)
                                     viewModel.stopwatch.start()
                                 }
@@ -118,6 +118,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
     }
 
     private fun onSolved() {
+        tileListAdapter.onSolved()
+
         lifecycleScope.launch {
             delay(ONE_THOUSAND.milliseconds)
 

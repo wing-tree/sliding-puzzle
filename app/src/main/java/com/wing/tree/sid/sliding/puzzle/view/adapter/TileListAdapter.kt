@@ -25,6 +25,7 @@ class TileListAdapter(
 
     private val callback = Callback(currentList)
     private val isDraggable = AtomicBoolean(true)
+    private val isSolved = AtomicBoolean(false)
     private val unoccupied = Unoccupied()
 
     val sequence: List<Int> get() = currentList.map { it.index }
@@ -69,6 +70,10 @@ class TileListAdapter(
         diffResult.dispatchUpdatesTo(this)
     }
 
+    fun onSolved() {
+        isSolved.set(false)
+    }
+
     private val Size.textAppearance: Int get() = when(this) {
         Size.Eight -> R.style.DisplayMedium
         Size.Fifteen -> R.style.DisplaySmall
@@ -102,7 +107,8 @@ class TileListAdapter(
                         index.setDongleText("${item.index}")
 
                         setOnClickListener {
-                            if (isDraggable.get()) {
+                            val isDraggable = isDraggable.get()
+                            if (isDraggable) {
                                 move(holder, Action.Click)
                             }
                         }
@@ -182,7 +188,11 @@ class TileListAdapter(
 
                     onMoved(fromPos, toPos)
 
-                    isDraggable.set(true)
+                    val isSolved = isSolved.get()
+
+                    if (isSolved.not()) {
+                        isDraggable.set(true)
+                    }
                 }
             }
         }
