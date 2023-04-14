@@ -6,7 +6,7 @@
     <string name="puzzle">Puzzle</string>
     <string name="ranked">Ranked %s</string>
     <string name="ranking">Ranking</string>
-    <string name="register">Register</string>
+    <string name="register_for_ranking">Register for ranking</string>
     <string name="reset">Reset</string>
     <string name="retry">Retry</string>
     <string name="solved">%d-Puzzle solved</string>
