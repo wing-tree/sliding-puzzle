@@ -10,6 +10,8 @@ import com.wing.tree.sid.core.extension.`is`
 import com.wing.tree.sid.domain.entity.Size
 import com.wing.tree.sid.sliding.puzzle.R
 import com.wing.tree.sid.sliding.puzzle.databinding.SizeBinding
+import com.wing.tree.sid.sliding.puzzle.extension.context
+import com.wing.tree.sid.sliding.puzzle.extension.setDongleText
 import com.wing.tree.sid.sliding.puzzle.extension.setOnClickListener
 import com.wing.tree.sid.sliding.puzzle.extension.string
 
@@ -41,9 +43,7 @@ class SizeListAdapter(
                     onItemClickListener.onItemClick(item)
                 }
 
-                with(text) {
-                    text = item.toText(context)
-                }
+                text.setDongleText(item.toText(context))
             }
         }
     }
