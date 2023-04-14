@@ -99,7 +99,7 @@ class TileListAdapter(
                     is Tile.Occupied -> {
                         visible()
 
-                        index.text = "${item.index}"
+                        index.setDongleText("${item.index}")
 
                         setOnClickListener {
                             if (isDraggable.get()) {

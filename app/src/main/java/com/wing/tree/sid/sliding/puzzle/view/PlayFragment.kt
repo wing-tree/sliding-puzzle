@@ -72,7 +72,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
 
                 @OptIn(FlowPreview::class)
                 viewModel.playTime.sample(periodMills.milliseconds).collect {
-                    viewBinding.playTime.text = it.format()
+                    viewBinding.playTime.setDongleText(it.format())
                 }
             }
         }
