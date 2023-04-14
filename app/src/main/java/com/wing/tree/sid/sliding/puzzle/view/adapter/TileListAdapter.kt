@@ -37,7 +37,6 @@ class TileListAdapter(
         ).apply {
             with(index) {
                 setTextAppearance(size.textAppearance)
-                adjustPadding()
             }
         }
 

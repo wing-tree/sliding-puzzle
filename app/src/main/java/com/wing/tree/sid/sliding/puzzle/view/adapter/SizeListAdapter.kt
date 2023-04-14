@@ -10,8 +10,6 @@ import com.wing.tree.sid.core.extension.`is`
 import com.wing.tree.sid.domain.entity.Size
 import com.wing.tree.sid.sliding.puzzle.R
 import com.wing.tree.sid.sliding.puzzle.databinding.SizeBinding
-import com.wing.tree.sid.sliding.puzzle.extension.adjustPadding
-import com.wing.tree.sid.sliding.puzzle.extension.context
 import com.wing.tree.sid.sliding.puzzle.extension.setOnClickListener
 import com.wing.tree.sid.sliding.puzzle.extension.string
 
@@ -45,8 +43,6 @@ class SizeListAdapter(
 
                 with(text) {
                     text = item.toText(context)
-
-                    adjustPadding()
                 }
             }
         }

@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.wing.tree.sid.sliding.puzzle.databinding.FragmentRankingPagerBinding
-import com.wing.tree.sid.sliding.puzzle.extension.adjustPadding
 import com.wing.tree.sid.sliding.puzzle.view.adapter.RankingPagerAdapter
 
 class RankingPagerFragment : BaseFragment<FragmentRankingPagerBinding>() {
@@ -24,8 +23,6 @@ class RankingPagerFragment : BaseFragment<FragmentRankingPagerBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         with(viewBinding) {
-            ranking.adjustPadding()
-
             rankingPager.apply {
                 adapter = rankingPagerAdapter
             }
