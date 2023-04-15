@@ -10,7 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.wing.tree.sid.core.constant.ONE_THOUSAND
+import com.wing.tree.sid.core.extension.long
 import com.wing.tree.sid.core.extension.milliseconds
 import com.wing.tree.sid.sliding.puzzle.databinding.FragmentPlayBinding
 import com.wing.tree.sid.sliding.puzzle.extension.*
@@ -38,77 +40,16 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
 
     private val viewModel by viewModels<PlayViewModel>()
 
+    private var simpleItemAnimator: SimpleItemAnimator? = null
+
     override fun inflate(inflater: LayoutInflater, container: ViewGroup?): FragmentPlayBinding {
         return FragmentPlayBinding.inflate(inflater, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        with(binding) {
-            tiles.apply {
-                val size = navArgs.size
-                val itemCount = size.int.inc()
-                val spanCount = size.column
-
-                adapter = tileListAdapter
-                itemAnimator = null
-                layoutManager = object : GridLayoutManager(context, spanCount) {
-                    override fun canScrollHorizontally(): Boolean = false
-                    override fun canScrollVertically(): Boolean = false
-                }.apply {
-                    initialPrefetchItemCount = itemCount
-                }
-            }
-
-            reset.setOnClickListener {
-                viewModel.reset()
-            }
-        }
-
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                val periodMills = ONE_THOUSAND
-
-                @OptIn(FlowPreview::class)
-                viewModel.playTime.sample(periodMills.milliseconds).collect {
-                    binding.playTime.text = it.format()
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.viewState.collect { viewState ->
-                    when (viewState) {
-                        PlayViewState.Loading -> {
-                            binding.loading.show()
-                        }
-
-                        is PlayViewState.Content -> {
-                            binding.loading.hide()
-
-                            when (viewState) {
-                                is PlayViewState.Content.Playing -> {
-                                    val puzzle = viewState.puzzle
-                                    val text = puzzle.playTime.format()
-
-                                    binding.playTime.setDongleText(text)
-                                    tileListAdapter.submitList(puzzle.tiles)
-                                    viewModel.stopwatch.start()
-                                }
-
-                                is PlayViewState.Content.Solved -> onSolved()
-                            }
-                        }
-
-                        is PlayViewState.Error -> {
-                            binding.loading.hide()
-                        }
-                    }
-                }
-            }
-        }
+        bind()
+        collect()
     }
 
     override fun onPause() {
@@ -130,6 +71,85 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
                     .actionPlayFragmentToResultFragment(rankingParameter)
 
                 navigate(directions)
+            }
+        }
+    }
+
+    private fun bind() {
+        with(binding) {
+            tiles.apply {
+                val size = navArgs.size
+                val itemCount = size.int.inc()
+                val spanCount = size.column
+
+                adapter = tileListAdapter
+                layoutManager = object : GridLayoutManager(context, spanCount) {
+                    override fun canScrollHorizontally(): Boolean = false
+                    override fun canScrollVertically(): Boolean = false
+                }.apply {
+                    initialPrefetchItemCount = itemCount
+                }
+
+                itemAnimator?.let {
+                    if (it is SimpleItemAnimator) {
+                        simpleItemAnimator = it
+                    }
+                }
+            }
+
+            reset.setOnClickListener {
+                simpleItemAnimator?.supportsChangeAnimations = true
+                viewModel.reset()
+            }
+        }
+    }
+
+    private fun collect() {
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                val periodMills = ONE_THOUSAND
+
+                @OptIn(FlowPreview::class)
+                viewModel.playTime.sample(periodMills.milliseconds).collect {
+                    binding.playTime.text = it.format()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.viewState.collect { viewState ->
+                    when (viewState) {
+                        PlayViewState.Loading -> Unit
+                        is PlayViewState.Content -> {
+                            when (viewState) {
+                                is PlayViewState.Content.Playing -> {
+                                    val puzzle = viewState.puzzle
+                                    val text = puzzle.playTime.format()
+
+                                    tileListAdapter.submitList(puzzle.tiles)
+
+                                    with(binding) {
+                                        playTime.setDongleText(text)
+
+                                        val startDelay = context.configShortAnimTime.long
+
+                                        if (tiles.isNotVisible) {
+                                            tiles.fadeIn(startDelay = startDelay)
+                                        }
+                                    }
+
+                                    simpleItemAnimator?.supportsChangeAnimations = false
+                                    viewModel.stopwatch.start()
+                                }
+
+                                is PlayViewState.Content.Solved -> onSolved()
+                            }
+                        }
+
+                        is PlayViewState.Error -> Unit
+                    }
+                }
             }
         }
     }

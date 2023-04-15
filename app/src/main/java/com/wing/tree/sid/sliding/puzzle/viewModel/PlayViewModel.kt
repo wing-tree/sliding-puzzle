@@ -96,9 +96,11 @@ class PlayViewModel @Inject constructor(
     }
 
     fun reset() {
-        viewModelScope.launch {
-            stopwatch.reset()
-            resetPuzzleUseCase(size)
+        if (isSolved.value.not()) {
+            viewModelScope.launch {
+                stopwatch.reset()
+                resetPuzzleUseCase(size)
+            }
         }
     }
 
