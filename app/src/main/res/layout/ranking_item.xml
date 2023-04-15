@@ -9,21 +9,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="12dp">
+        android:paddingVertical="8dp">
 
         <TextView
             android:id="@+id/rank"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:gravity="center"
+            android:textAppearance="@style/HeadlineLarge"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1st" />
 
         <TextView
             android:id="@+id/nickname"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/none"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/play_time"
             app:layout_constraintStart_toEndOf="@+id/rank"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="SID" />
@@ -32,6 +38,8 @@
             android:id="@+id/size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="@style/HeadlineSmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="@+id/nickname"
             app:layout_constraintTop_toBottomOf="@id/nickname"
             tools:text="15-Puzzle" />
@@ -40,7 +48,9 @@
             android:id="@+id/play_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="24dp"
+            android:textAppearance="@style/HeadlineSmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wing.tree.sid.core.constant.ONE_THOUSAND
 import com.wing.tree.sid.core.constant.TEN
 import com.wing.tree.sid.core.extension.`is`
-import com.wing.tree.sid.domain.entity.Size
 import com.wing.tree.sid.sliding.puzzle.R
-import com.wing.tree.sid.sliding.puzzle.databinding.RankingBinding
+import com.wing.tree.sid.sliding.puzzle.databinding.RankingItemBinding
 import com.wing.tree.sid.sliding.puzzle.extension.context
+import com.wing.tree.sid.sliding.puzzle.extension.setDongleText
 import com.wing.tree.sid.sliding.puzzle.extension.string
 import com.wing.tree.sid.sliding.puzzle.model.Ranking
 import java.util.*
@@ -22,7 +22,7 @@ class RankingListAdapter : ListAdapter<Ranking, RankingListAdapter.ViewHolder>(
     ItemCallback()
 ) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val viewBinding = RankingBinding.inflate(
+        val viewBinding = RankingItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
@@ -35,13 +35,13 @@ class RankingListAdapter : ListAdapter<Ranking, RankingListAdapter.ViewHolder>(
         holder.bind(getItem(position))
     }
 
-    class ViewHolder(private val viewBinding: RankingBinding) : RecyclerView.ViewHolder(viewBinding.root) {
+    class ViewHolder(private val binding: RankingItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Ranking) {
-            with(viewBinding) {
-                rank.text = "${item.rank}"
-                nickname.text = "${item.nickname}"
-                size.text = item.size.toText(context)
-                playTime.text = item.playTime.format()
+            with(binding) {
+                rank.setDongleText("${item.rank}")
+                nickname.setDongleText("${item.nickname}")
+                size.setDongleText(item.size.toText(context))
+                playTime.setDongleText(item.playTime.format())
             }
         }
 
