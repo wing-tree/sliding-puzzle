@@ -10,7 +10,7 @@
         style="@style/ScrollbarStyle"
         android:layout_width="@dimen/none"
         android:layout_height="@dimen/none"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
