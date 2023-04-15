@@ -7,12 +7,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ranking_list"
+        style="@style/ScrollbarStyle"
         android:layout_width="@dimen/none"
         android:layout_height="@dimen/none"
-        android:fadeScrollbars="true"
-        android:overScrollMode="ifContentScrolls"
-        android:requiresFadingEdge="vertical"
-        android:scrollbars="vertical"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

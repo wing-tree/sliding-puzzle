@@ -79,4 +79,13 @@
         <item name="android:fontFamily">@font/font_family_dongle</item>
         <item name="android:textAppearance">@style/HeadlineMedium</item>
     </style>
+
+    <style name="ScrollbarStyle">
+        <item name="android:fadeScrollbars">true</item>
+        <item name="android:overScrollMode">ifContentScrolls</item>
+        <item name="android:requiresFadingEdge">vertical</item>
+        <item name="android:scrollbarThumbVertical">@drawable/scrollbar_thumb_vertical</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
 </resources>
