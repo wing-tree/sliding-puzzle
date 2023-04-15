@@ -63,7 +63,6 @@ class RankingListFragment : BaseFragment<FragmentRankingListBinding>() {
                     with(binding) {
                         when (viewState) {
                             RankingListViewState.Loading -> {
-                                rankingList.fadeOut()
                                 error.hide()
                                 loading.show()
                             }
@@ -79,7 +78,6 @@ class RankingListFragment : BaseFragment<FragmentRankingListBinding>() {
                             }
 
                             is RankingListViewState.Error -> {
-                                binding.rankingList.fadeOut()
                                 binding.error.show(viewState.cause)
                                 binding.loading.hide()
                             }
