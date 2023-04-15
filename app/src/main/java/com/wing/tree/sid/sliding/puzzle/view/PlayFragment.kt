@@ -32,9 +32,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
     private val navArgs by navArgs<PlayFragmentArgs>()
     private val tileListAdapter by lazy {
         TileListAdapter(navArgs.size) {
-            if (it.isOrdered) {
-                viewModel.onSolved()
-            }
+            viewModel.updateSolved(it.isOrdered)
         }
     }
 
@@ -48,14 +46,34 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bind()
-        collect()
+        binding.bind()
+        viewModel.collect()
     }
 
     override fun onPause() {
         viewModel.savePuzzle(tileListAdapter.sequence)
 
         super.onPause()
+    }
+
+    private fun onPlaying(viewState: PlayViewState.Content.Playing) {
+        val puzzle = viewState.puzzle
+        val text = puzzle.playTime.format()
+
+        tileListAdapter.submitList(puzzle.tiles)
+
+        with(binding) {
+            playTime.setDongleText(text)
+
+            val startDelay = context.configShortAnimTime.long
+
+            if (tiles.isNotVisible) {
+                tiles.fadeIn(startDelay = startDelay)
+            }
+        }
+
+        simpleItemAnimator?.supportsChangeAnimations = false
+        viewModel.stopwatch.start()
     }
 
     private fun onSolved() {
@@ -75,82 +93,30 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
         }
     }
 
-    private fun bind() {
-        with(binding) {
-            tiles.apply {
-                val size = navArgs.size
-                val itemCount = size.int.inc()
-                val spanCount = size.column
+    private fun FragmentPlayBinding.bind() {
+        tiles.apply {
+            val size = navArgs.size
+            val itemCount = size.int.inc()
+            val spanCount = size.column
 
-                adapter = tileListAdapter
-                layoutManager = object : GridLayoutManager(context, spanCount) {
-                    override fun canScrollHorizontally(): Boolean = false
-                    override fun canScrollVertically(): Boolean = false
-                }.apply {
-                    initialPrefetchItemCount = itemCount
-                }
-
-                itemAnimator?.let {
-                    if (it is SimpleItemAnimator) {
-                        simpleItemAnimator = it
-                    }
-                }
+            adapter = tileListAdapter
+            layoutManager = object : GridLayoutManager(context, spanCount) {
+                override fun canScrollHorizontally(): Boolean = false
+                override fun canScrollVertically(): Boolean = false
+            }.apply {
+                initialPrefetchItemCount = itemCount
             }
 
-            reset.setOnClickListener {
-                simpleItemAnimator?.supportsChangeAnimations = true
-                viewModel.reset()
-            }
-        }
-    }
-
-    private fun collect() {
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                val periodMills = ONE_THOUSAND
-
-                @OptIn(FlowPreview::class)
-                viewModel.playTime.sample(periodMills.milliseconds).collect {
-                    binding.playTime.text = it.format()
+            itemAnimator?.let {
+                if (it is SimpleItemAnimator) {
+                    simpleItemAnimator = it
                 }
             }
         }
 
-        lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.viewState.collect { viewState ->
-                    when (viewState) {
-                        PlayViewState.Loading -> Unit
-                        is PlayViewState.Content -> {
-                            when (viewState) {
-                                is PlayViewState.Content.Playing -> {
-                                    val puzzle = viewState.puzzle
-                                    val text = puzzle.playTime.format()
-
-                                    tileListAdapter.submitList(puzzle.tiles)
-
-                                    with(binding) {
-                                        playTime.setDongleText(text)
-
-                                        val startDelay = context.configShortAnimTime.long
-
-                                        if (tiles.isNotVisible) {
-                                            tiles.fadeIn(startDelay = startDelay)
-                                        }
-                                    }
-
-                                    simpleItemAnimator?.supportsChangeAnimations = false
-                                    viewModel.stopwatch.start()
-                                }
-
-                                is PlayViewState.Content.Solved -> onSolved()
-                            }
-                        }
-
-                        is PlayViewState.Error -> Unit
-                    }
-                }
-            }
+        reset.setOnClickListener {
+            simpleItemAnimator?.supportsChangeAnimations = true
+            viewModel.reset()
         }
     }
 
@@ -166,5 +132,36 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
             minutes,
             seconds
         )
+    }
+
+    private fun PlayViewModel.collect() {
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                val periodMills = ONE_THOUSAND
+
+                @OptIn(FlowPreview::class)
+                playTime.sample(periodMills.milliseconds).collect {
+                    binding.playTime.text = it.format()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewState.collect { viewState ->
+                    when (viewState) {
+                        PlayViewState.Loading -> Unit
+                        is PlayViewState.Content -> {
+                            when (viewState) {
+                                is PlayViewState.Content.Playing -> onPlaying(viewState)
+                                is PlayViewState.Content.Solved -> onSolved()
+                            }
+                        }
+
+                        is PlayViewState.Error -> Unit
+                    }
+                }
+            }
+        }
     }
 }

@@ -89,9 +89,9 @@ class PlayViewModel @Inject constructor(
         }
     )
 
-    fun onSolved() {
+    fun updateSolved(value: Boolean) {
         isSolved.update {
-            true
+            value
         }
     }
 
