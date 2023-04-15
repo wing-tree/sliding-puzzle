@@ -36,11 +36,11 @@ class RankingListFragment : BaseFragment<FragmentRankingListBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewBinding.error.retry.setOnClickListener {
+        binding.error.retry.setOnClickListener {
             viewModel.retry()
         }
 
-        viewBinding.rankingList.apply {
+        binding.rankingList.apply {
             adapter = rankingListAdapter
             layoutManager = LinearLayoutManager(context).apply {
                 initialPrefetchItemCount = TEN
@@ -60,7 +60,7 @@ class RankingListFragment : BaseFragment<FragmentRankingListBinding>() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.viewState.collect { viewState ->
-                    with(viewBinding) {
+                    with(binding) {
                         when (viewState) {
                             RankingListViewState.Loading -> {
                                 rankingList.fadeOut()
@@ -83,9 +83,9 @@ class RankingListFragment : BaseFragment<FragmentRankingListBinding>() {
                             }
 
                             is RankingListViewState.Error -> {
-                                viewBinding.rankingList.fadeOut()
-                                viewBinding.error.show(viewState.cause)
-                                viewBinding.loading.hide()
+                                binding.rankingList.fadeOut()
+                                binding.error.show(viewState.cause)
+                                binding.loading.hide()
                             }
                         }
                     }

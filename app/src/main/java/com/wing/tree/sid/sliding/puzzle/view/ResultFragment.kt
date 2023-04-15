@@ -35,7 +35,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(viewBinding) {
+        with(binding) {
             nickname.editText?.setDonglePadding()
 
             registerForRanking.setOnClickListener {
@@ -67,11 +67,11 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
                 viewModel.viewState.collect { viewState ->
                     when (viewState) {
                         ResultViewState.Loading -> {
-                            viewBinding.loading.show()
+                            binding.loading.show()
                         }
 
-                        is ResultViewState.Content -> with(viewBinding) {
-                            viewBinding.loading.hide()
+                        is ResultViewState.Content -> with(binding) {
+                            binding.loading.hide()
 
                             val rankingParameter = viewState.rankingParameter
 
@@ -102,7 +102,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
                         }
 
                         is ResultViewState.Error -> {
-                            viewBinding.loading.hide()
+                            binding.loading.hide()
                             Toast.makeText(requireActivity(), viewState.cause.message, Toast.LENGTH_SHORT).show()
                         }
                     }

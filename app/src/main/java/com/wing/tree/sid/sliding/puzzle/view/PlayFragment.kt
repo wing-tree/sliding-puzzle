@@ -45,7 +45,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(viewBinding) {
+        with(binding) {
             tiles.apply {
                 val size = navArgs.size
                 val itemCount = size.int.inc()
@@ -74,7 +74,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
 
                 @OptIn(FlowPreview::class)
                 viewModel.playTime.sample(periodMills.milliseconds).collect {
-                    viewBinding.playTime.text = it.format()
+                    binding.playTime.text = it.format()
                 }
             }
         }
@@ -84,18 +84,18 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
                 viewModel.viewState.collect { viewState ->
                     when (viewState) {
                         PlayViewState.Loading -> {
-                            viewBinding.loading.show()
+                            binding.loading.show()
                         }
 
                         is PlayViewState.Content -> {
-                            viewBinding.loading.hide()
+                            binding.loading.hide()
 
                             when (viewState) {
                                 is PlayViewState.Content.Playing -> {
                                     val puzzle = viewState.puzzle
                                     val text = puzzle.playTime.format()
 
-                                    viewBinding.playTime.setDongleText(text)
+                                    binding.playTime.setDongleText(text)
                                     tileListAdapter.submitList(puzzle.tiles)
                                     viewModel.stopwatch.start()
                                 }
@@ -105,7 +105,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
                         }
 
                         is PlayViewState.Error -> {
-                            viewBinding.loading.hide()
+                            binding.loading.hide()
                         }
                     }
                 }
