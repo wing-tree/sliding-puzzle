@@ -6,7 +6,9 @@ import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.gms.ads.AdSize
 import com.wing.tree.sid.sliding.puzzle.databinding.ActivityMainBinding
+import com.wing.tree.sid.sliding.puzzle.extension.bannerAd
 import com.wing.tree.sid.sliding.puzzle.extension.navigationBarHeight
 import com.wing.tree.sid.sliding.puzzle.extension.statusBarHeight
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,17 +24,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(viewBinding.root)
         hideSystemUi()
 
-        with(viewBinding.navHostFragment) {
-            setPadding(
-                paddingLeft,
-                paddingTop
-                    .plus(statusBarHeight)
-                    .plus(navigationBarHeight),
-                paddingRight,
-                paddingBottom
-                    .plus(statusBarHeight)
-                    .plus(navigationBarHeight)
-            )
+        with(viewBinding) {
+            with(navHostFragment) {
+                setPadding(
+                    paddingLeft,
+                    paddingTop
+                        .plus(statusBarHeight)
+                        .plus(navigationBarHeight),
+                    paddingRight,
+                    paddingBottom
+                        .plus(statusBarHeight)
+                        .plus(navigationBarHeight)
+                )
+            }
+
+            bannerAd(adView, AdSize.BANNER)
         }
     }
 

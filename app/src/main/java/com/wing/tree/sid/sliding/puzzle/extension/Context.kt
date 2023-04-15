@@ -6,6 +6,7 @@ import android.view.animation.Interpolator
 import androidx.annotation.DimenRes
 import androidx.annotation.IntegerRes
 import androidx.annotation.StringRes
+import androidx.core.content.res.ResourcesCompat
 
 val Context.configShortAnimTime: Int get() = resources.configShortAnimTime
 val Context.configMediumAnimTime: Int get() = resources.configMediumAnimTime
@@ -33,5 +34,6 @@ val Context.statusBarHeight: Int get() = resources.statusBarHeight
 val Context.navigationBarHeight: Int get() = resources.navigationBarHeight
 
 fun Context.dimensionPixelSize(@DimenRes id: Int) = resources.getDimensionPixelSize(id)
+fun Context.float(@DimenRes id: Int) = ResourcesCompat.getFloat(resources, id)
 fun Context.integer(@IntegerRes id: Int) = resources.getInteger(id)
 fun Context.string(@StringRes id: Int) = resources.getString(id)

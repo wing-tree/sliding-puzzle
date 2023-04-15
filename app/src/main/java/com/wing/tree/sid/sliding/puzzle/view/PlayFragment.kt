@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.facebook.shimmer.Shimmer.AlphaHighlightBuilder
+import com.wing.tree.sid.core.constant.ONE_HUNDRED
 import com.wing.tree.sid.core.constant.ONE_THOUSAND
 import com.wing.tree.sid.core.extension.long
 import com.wing.tree.sid.core.extension.milliseconds
@@ -67,10 +68,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
         with(binding) {
             playTime.setDongleText(text)
 
-            val startDelay = configShortAnimTime.long
-
             if (tiles.isNotVisible) {
-                tiles.fadeIn(startDelay = startDelay)
+                tiles.fadeIn(startDelay = ONE_HUNDRED.long)
             }
         }
 
@@ -80,8 +79,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
 
     private fun onSolved() {
         val shimmer = AlphaHighlightBuilder()
-            .setBaseAlpha(getFloat(R.dimen.shimmer_base_alpha))
-            .setHighlightAlpha(getFloat(R.dimen.shimmer_highlight_alpha))
+            .setBaseAlpha(float(R.dimen.shimmer_base_alpha))
+            .setHighlightAlpha(float(R.dimen.shimmer_highlight_alpha))
             .build()
 
         binding.shimmerFrameLayout.setShimmer(shimmer)
