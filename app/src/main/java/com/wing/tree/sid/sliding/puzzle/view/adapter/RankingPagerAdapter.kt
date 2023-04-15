@@ -13,6 +13,6 @@ class RankingPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     }
 
     companion object {
-        private const val ITEM_COUNT = THREE
+        const val ITEM_COUNT = THREE
     }
 }
