@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -23,23 +23,35 @@
             android:layout_width="@dimen/none"
             android:layout_height="wrap_content"
             android:gravity="center"
-            app:layout_constraintBottom_toTopOf="@+id/tiles"
+            app:layout_constraintBottom_toTopOf="@+id/shimmer_frame_layout"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/tiles"
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_frame_layout"
             android:layout_width="@dimen/none"
             android:layout_height="@dimen/none"
             android:clipChildren="false"
             android:clipToPadding="false"
-            android:overScrollMode="never"
-            android:padding="12dp"
-            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/reset"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/play_time" />
+            app:layout_constraintTop_toBottomOf="@+id/play_time"
+            app:shimmer_auto_start="false"
+            app:shimmer_base_alpha="@dimen/shimmer_base_alpha">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tiles"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:padding="12dp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/reset"

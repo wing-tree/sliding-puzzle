@@ -23,9 +23,15 @@ class TileListAdapter(
     private val _currentList = mutableListOf<Tile>()
     val currentList: List<Tile> get() = _currentList
 
+    private val _isDraggable = AtomicBoolean(true)
+    private val isDraggable: Boolean get() = _isDraggable
+        .get()
+        .and(isSolved.not())
+
+    private val _isSolved = AtomicBoolean(false)
+    private val isSolved: Boolean get() = _isSolved.get()
+
     private val callback = Callback(currentList)
-    private val isDraggable = AtomicBoolean(true)
-    private val isSolved = AtomicBoolean(false)
     private val unoccupied = Unoccupied()
 
     val sequence: List<Int> get() = currentList.map { it.index }
@@ -71,7 +77,7 @@ class TileListAdapter(
     }
 
     fun onSolved() {
-        isSolved.set(false)
+        _isSolved.set(true)
     }
 
     private val Size.textAppearance: Int get() = when(this) {
@@ -107,7 +113,6 @@ class TileListAdapter(
                         index.setDongleText("${item.index}")
 
                         setOnClickListener {
-                            val isDraggable = isDraggable.get()
                             if (isDraggable) {
                                 move(holder, Action.Click)
                             }
@@ -171,7 +176,7 @@ class TileListAdapter(
                 }.long
             }
 
-            isDraggable.set(false)
+            _isDraggable.set(false)
 
             with(holder.root) {
                 when(dragFlag) {
@@ -188,11 +193,7 @@ class TileListAdapter(
 
                     onMoved(fromPos, toPos)
 
-                    val isSolved = isSolved.get()
-
-                    if (isSolved.not()) {
-                        isDraggable.set(true)
-                    }
+                    _isDraggable.set(true)
                 }
             }
         }

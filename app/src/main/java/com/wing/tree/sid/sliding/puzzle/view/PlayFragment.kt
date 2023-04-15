@@ -11,9 +11,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import com.facebook.shimmer.Shimmer.AlphaHighlightBuilder
 import com.wing.tree.sid.core.constant.ONE_THOUSAND
 import com.wing.tree.sid.core.extension.long
 import com.wing.tree.sid.core.extension.milliseconds
+import com.wing.tree.sid.sliding.puzzle.R
 import com.wing.tree.sid.sliding.puzzle.databinding.FragmentPlayBinding
 import com.wing.tree.sid.sliding.puzzle.extension.*
 import com.wing.tree.sid.sliding.puzzle.view.adapter.TileListAdapter
@@ -77,6 +79,14 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
     }
 
     private fun onSolved() {
+        val shimmer = AlphaHighlightBuilder()
+            .setBaseAlpha(getFloat(R.dimen.shimmer_base_alpha))
+            .setHighlightAlpha(getFloat(R.dimen.shimmer_highlight_alpha))
+            .build()
+
+        binding.shimmerFrameLayout.setShimmer(shimmer)
+        binding.shimmerFrameLayout.showShimmer(true)
+        binding.shimmerFrameLayout.startShimmer()
         tileListAdapter.onSolved()
 
         lifecycleScope.launch {
@@ -123,7 +133,8 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
     private fun Long.format(): String {
         val hours = TimeUnit.MILLISECONDS.toHours(this)
         val minutes = TimeUnit.MILLISECONDS.toMinutes(this).minus(TimeUnit.HOURS.toMinutes(hours))
-        val seconds = TimeUnit.MILLISECONDS.toSeconds(this).minus(TimeUnit.MINUTES.toSeconds(minutes))
+        val seconds =
+            TimeUnit.MILLISECONDS.toSeconds(this).minus(TimeUnit.MINUTES.toSeconds(minutes))
 
         return String.format(
             Locale.getDefault(),
