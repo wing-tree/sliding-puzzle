@@ -24,7 +24,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(viewBinding) {
+        with(binding) {
             sizes.apply {
                 adapter = sizeListAdapter
                 layoutManager = LinearLayoutManager(context)
