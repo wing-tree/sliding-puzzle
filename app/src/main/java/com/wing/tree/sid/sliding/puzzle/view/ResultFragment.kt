@@ -10,16 +10,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.wing.tree.sid.core.constant.EMPTY
 import com.wing.tree.sid.core.constant.ONE_THOUSAND
 import com.wing.tree.sid.core.constant.TEN
 import com.wing.tree.sid.domain.entity.Nickname
 import com.wing.tree.sid.sliding.puzzle.R
 import com.wing.tree.sid.sliding.puzzle.databinding.FragmentResultBinding
-import com.wing.tree.sid.sliding.puzzle.extension.gone
-import com.wing.tree.sid.sliding.puzzle.extension.string
-import com.wing.tree.sid.sliding.puzzle.extension.visible
+import com.wing.tree.sid.sliding.puzzle.extension.*
 import com.wing.tree.sid.sliding.puzzle.viewModel.ResultViewModel
 import com.wing.tree.sid.sliding.puzzle.viewState.ResultViewState
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,7 +26,6 @@ import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class ResultFragment : BaseFragment<FragmentResultBinding>() {
-    private val navArgs by navArgs<ResultFragmentArgs>()
     private val viewModel by viewModels<ResultViewModel>()
 
     override fun inflate(inflater: LayoutInflater, container: ViewGroup?): FragmentResultBinding {
@@ -40,7 +36,9 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         with(viewBinding) {
-            register.setOnClickListener {
+            nickname.editText?.setDonglePadding()
+
+            registerForRanking.setOnClickListener {
                 val editText = nickname.editText
                 val nickname = editText?.text ?: EMPTY
 
@@ -81,19 +79,26 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
                                 is ResultViewState.Content.Ranked -> {
                                     rank.visible()
                                     nickname.visible()
+                                    registerForRanking.visible()
 
-                                    rank.text = getString(R.string.ranked, "${viewState.rank}")
-                                    playTime.text = rankingParameter.playTime.format()
+                                    solved.setTextAppearance(R.style.DisplaySmall)
+                                    playTime.setTextAppearance(R.style.HeadlineLarge)
+
+                                    rank.setDongleText(getString(R.string.ranked, "${viewState.rank}"))
                                 }
 
                                 is ResultViewState.Content.NotRanked -> {
                                     rank.gone()
                                     nickname.gone()
+                                    registerForRanking.gone()
+
+                                    solved.setTextAppearance(R.style.DisplayMedium)
+                                    playTime.setTextAppearance(R.style.DisplaySmall)
                                 }
                             }
 
-                            solved.text = getString(R.string.solved, rankingParameter.size)
-                            playTime.text = rankingParameter.playTime.format()
+                            solved.setDongleText(getString(R.string.solved, rankingParameter.size))
+                            playTime.setDongleText(rankingParameter.playTime.format())
                         }
 
                         is ResultViewState.Error -> {

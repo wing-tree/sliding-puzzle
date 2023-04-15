@@ -67,12 +67,14 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
         }
 
         lifecycleScope.launch {
+            viewModel.onSolved()
+
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 val periodMills = resources.configLongAnimTime
 
                 @OptIn(FlowPreview::class)
                 viewModel.playTime.sample(periodMills.milliseconds).collect {
-                    viewBinding.playTime.setDongleText(it.format())
+                    viewBinding.playTime.text = it.format()
                 }
             }
         }

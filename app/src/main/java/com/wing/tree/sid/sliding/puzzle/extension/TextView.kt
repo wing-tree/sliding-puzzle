@@ -8,6 +8,10 @@ import kotlin.math.roundToInt
 fun TextView.setDongleText(text: CharSequence) {
     this.text = text
 
+    setDonglePadding()
+}
+
+fun TextView.setDonglePadding() {
     if (tag.not(true)) {
         val fontMetrics = paint.fontMetrics
         val ascent = fontMetrics.ascent
