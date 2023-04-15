@@ -35,25 +35,29 @@ fun ViewBinding.setOnTouchListener(l: View.OnTouchListener) {
 
 fun ViewBinding.fadeIn(
     duration: Long = context.configLongAnimTime.long,
+    startDelay: Long = ZERO.long,
     interpolator: TimeInterpolator? = context.decelerateQuadInterpolator,
     listener: Animator.AnimatorListener? = null
 ): ViewPropertyAnimator {
     return root.fadeIn(
-        duration,
-        interpolator,
-        listener
+        duration = duration,
+        startDelay = startDelay,
+        interpolator = interpolator,
+        listener = listener,
     )
 }
 
 fun ViewBinding.fadeOut(
     duration: Long = context.configMediumAnimTime.long,
+    startDelay: Long = ZERO.long,
     interpolator: TimeInterpolator? = context.accelerateQuadInterpolator,
     listener: Animator.AnimatorListener? = null
 ): ViewPropertyAnimator {
     return root.fadeOut(
-        duration,
-        interpolator,
-        listener
+        duration = duration,
+        startDelay = startDelay,
+        interpolator = interpolator,
+        listener = listener,
     )
 }
 

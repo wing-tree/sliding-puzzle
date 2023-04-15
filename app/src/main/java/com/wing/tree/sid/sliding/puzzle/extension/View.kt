@@ -26,14 +26,18 @@ fun View.gone() {
 
 fun View.fadeIn(
     duration: Long = context.configLongAnimTime.long,
+    startDelay: Long = ZERO.long,
     interpolator: TimeInterpolator? = context.decelerateQuadInterpolator,
     listener: Animator.AnimatorListener? = null
 ): ViewPropertyAnimator {
+    visible()
+
     alpha = ZERO.float
 
     return animate()
         .alpha(ONE.float)
         .setDuration(duration)
+        .setStartDelay(startDelay)
         .setInterpolator(interpolator)
         .setListener(listener)
         .withLayer()
@@ -41,6 +45,7 @@ fun View.fadeIn(
 
 fun View.fadeOut(
     duration: Long = context.configMediumAnimTime.long,
+    startDelay: Long = ZERO.long,
     interpolator: TimeInterpolator? = context.accelerateQuadInterpolator,
     listener: Animator.AnimatorListener? = null
 ): ViewPropertyAnimator {
@@ -49,6 +54,7 @@ fun View.fadeOut(
     return animate()
         .alpha(ZERO.float)
         .setDuration(duration)
+        .setStartDelay(startDelay)
         .setInterpolator(interpolator)
         .setListener(listener)
         .withLayer()
