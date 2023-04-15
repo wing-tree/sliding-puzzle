@@ -5,10 +5,10 @@ import com.wing.tree.sid.core.constant.*
 
 val Int.float: Float get() = toFloat()
 val Int.hundreds: Int get() = times(ONE_HUNDRED)
-val Int.isEven: Boolean get() = rem(TWO) == ZERO
+val Int.isEven: Boolean get() = rem(TWO).`is`(ZERO)
 val Int.isOdd: Boolean get() = isEven.not()
 val Int.isPositive: Boolean get() = this > ZERO
-val Int.isZero: Boolean get() = this == ZERO
+val Int.isZero: Boolean get() = `is`(ZERO)
 val Int.long: Long get() = toLong()
 val Int.milliseconds: Long get() = toLong()
 val Int.negative: Int get() = unaryMinus()

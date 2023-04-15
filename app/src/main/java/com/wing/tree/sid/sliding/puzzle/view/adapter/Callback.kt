@@ -1,6 +1,7 @@
 package com.wing.tree.sid.sliding.puzzle.view.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+import com.wing.tree.sid.core.extension.`is`
 import com.wing.tree.sid.sliding.puzzle.model.Tile
 
 class Callback(
@@ -16,14 +17,14 @@ class Callback(
         val oldItem = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
 
-        return oldItem.index == newItem.index
+        return oldItem.index.`is`(newItem.index)
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldItem = oldList[oldItemPosition]
         val newItem = newList[newItemPosition]
 
-        return oldItem == newItem
+        return oldItem.`is`(newItem)
     }
 
     fun updateNewList(block: List<Tile>.() -> List<Tile>) {

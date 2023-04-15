@@ -116,7 +116,7 @@ class TileListAdapter(
                         setOnTouchListener(
                             object : OnFlingListener(context) {
                                 override fun onFling(direction: Direction): Boolean {
-                                    return if (direction.dragFlag == holder.dragFlag) {
+                                    return if (direction.dragFlag.`is`(holder.dragFlag)) {
                                         move(holder, Action.Fling)
                                         false
                                     } else {
