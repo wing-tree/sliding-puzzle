@@ -73,11 +73,7 @@ class RankingListFragment : BaseFragment<FragmentRankingListBinding>() {
                                 error.hide()
                                 rankingListAdapter.submitList(viewState.data) {
                                     if (rankingList.isNotVisible) {
-                                        rankingList
-                                            .fadeIn()
-                                            .withStartAction {
-                                                rankingList.visible()
-                                            }
+                                        rankingList.fadeIn()
                                     }
                                 }
                             }

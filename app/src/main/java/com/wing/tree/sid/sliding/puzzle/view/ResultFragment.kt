@@ -1,5 +1,7 @@
 package com.wing.tree.sid.sliding.puzzle.view
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +18,8 @@ import com.wing.tree.sid.core.constant.TEN
 import com.wing.tree.sid.domain.entity.Nickname
 import com.wing.tree.sid.sliding.puzzle.R
 import com.wing.tree.sid.sliding.puzzle.databinding.FragmentResultBinding
+import com.wing.tree.sid.sliding.puzzle.databinding.NotRankedBinding
+import com.wing.tree.sid.sliding.puzzle.databinding.RankedBinding
 import com.wing.tree.sid.sliding.puzzle.extension.*
 import com.wing.tree.sid.sliding.puzzle.viewModel.ResultViewModel
 import com.wing.tree.sid.sliding.puzzle.viewState.ResultViewState
@@ -36,27 +40,6 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
-            nickname.editText?.setDonglePadding()
-
-            registerForRanking.setOnClickListener {
-                val editText = nickname.editText
-                val nickname = editText?.text ?: EMPTY
-
-                lifecycleScope.launch {
-                    if (nickname.isBlank()) {
-                        editText?.error = string(R.string.please_enter_a_nickname)
-                    } else {
-                        viewModel.registerForRanking(Nickname(nickname)).onSuccess {
-                            Toast.makeText(requireActivity(), rank.text, Toast.LENGTH_SHORT).show()
-                        }.onFailure {
-                            Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
-                        }
-
-                        findNavController().popBackStack()
-                    }
-                }
-            }
-
             home.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -65,44 +48,41 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.viewState.collect { viewState ->
-                    when (viewState) {
-                        ResultViewState.Loading -> {
-                            binding.loading.show()
+                    with(binding.loading) {
+                        if (viewState is ResultViewState.Loading) {
+                            show()
+                        } else {
+                            hide()
                         }
+                    }
 
+                    when (viewState) {
+                        ResultViewState.Loading -> Unit
                         is ResultViewState.Content -> with(binding) {
-                            binding.loading.hide()
-
-                            val rankingParameter = viewState.rankingParameter
-
                             when (viewState) {
-                                is ResultViewState.Content.Ranked -> {
-                                    rank.visible()
-                                    nickname.visible()
-                                    registerForRanking.visible()
-
-                                    solved.setTextAppearance(R.style.DisplaySmall)
-                                    playTime.setTextAppearance(R.style.HeadlineLarge)
-
-                                    rank.setDongleText(getString(R.string.ranked, "${viewState.rank}"))
+                                is ResultViewState.Content.Ranked -> with(ranked) {
+                                    fadeIn(
+                                        listener = object : AnimatorListenerAdapter() {
+                                            override fun onAnimationStart(animation: Animator) {
+                                                bind(viewState)
+                                            }
+                                        }
+                                    )
                                 }
 
-                                is ResultViewState.Content.NotRanked -> {
-                                    rank.gone()
-                                    nickname.gone()
-                                    registerForRanking.gone()
-
-                                    solved.setTextAppearance(R.style.DisplayMedium)
-                                    playTime.setTextAppearance(R.style.DisplaySmall)
+                                is ResultViewState.Content.NotRanked -> with(notRanked) {
+                                    fadeIn(
+                                        listener = object : AnimatorListenerAdapter() {
+                                            override fun onAnimationStart(animation: Animator) {
+                                                bind(viewState)
+                                            }
+                                        }
+                                    )
                                 }
                             }
-
-                            solved.setDongleText(getString(R.string.solved, rankingParameter.size))
-                            playTime.setDongleText(rankingParameter.playTime.format())
                         }
 
                         is ResultViewState.Error -> {
-                            binding.loading.hide()
                             Toast.makeText(requireActivity(), viewState.cause.message, Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -125,5 +105,41 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
             seconds,
             milliseconds
         )
+    }
+
+    private fun NotRankedBinding.bind(viewState: ResultViewState.Content.NotRanked) {
+        val rankingParameter = viewState.rankingParameter
+
+        solved.setDongleText(getString(R.string.solved, rankingParameter.size))
+        playTime.setDongleText(rankingParameter.playTime.format())
+    }
+
+    private fun RankedBinding.bind(viewState: ResultViewState.Content.Ranked) {
+        val rankingParameter = viewState.rankingParameter
+
+        nickname.editText?.setDonglePadding()
+
+        registerForRanking.setOnClickListener {
+            val editText = nickname.editText
+            val nickname = editText?.text ?: EMPTY
+
+            lifecycleScope.launch {
+                if (nickname.isBlank()) {
+                    editText?.error = string(R.string.please_enter_a_nickname)
+                } else {
+                    viewModel.registerForRanking(Nickname(nickname)).onSuccess {
+                        Toast.makeText(requireActivity(), rank.text, Toast.LENGTH_SHORT).show()
+                    }.onFailure {
+                        Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
+                    }
+
+                    findNavController().popBackStack()
+                }
+            }
+        }
+
+        rank.setDongleText(getString(R.string.ranked, "${viewState.rank}"))
+        solved.setDongleText(getString(R.string.solved, rankingParameter.size))
+        playTime.setDongleText(rankingParameter.playTime.format())
     }
 }

@@ -67,7 +67,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
         with(binding) {
             playTime.setDongleText(text)
 
-            val startDelay = context.configShortAnimTime.long
+            val startDelay = configShortAnimTime.long
 
             if (tiles.isNotVisible) {
                 tiles.fadeIn(startDelay = startDelay)
