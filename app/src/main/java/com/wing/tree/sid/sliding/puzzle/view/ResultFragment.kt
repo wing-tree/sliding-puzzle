@@ -46,6 +46,10 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            materialToolbar.setNavigationOnClickListener {
+                finish()
+            }
+
             home.setOnClickListener {
                 finish()
             }

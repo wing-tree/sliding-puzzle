@@ -7,16 +7,26 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/material_toolbar"
+            android:layout_width="@dimen/none"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/round_arrow_back_ios_new_24" />
+
         <TextView
             android:id="@+id/ranking"
             android:layout_width="@dimen/none"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="@string/ranking"
             android:textAppearance="@style/DisplayMedium"
+            app:dongleText="@{@string/ranking}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/material_toolbar" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/ranking_pager"

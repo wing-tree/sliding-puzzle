@@ -8,16 +8,25 @@
         android:layout_height="match_parent"
         android:clipChildren="false">
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/material_toolbar"
+            android:layout_width="@dimen/none"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/app_name"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/none"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:gravity="center"
             android:textAppearance="@style/DisplayMedium"
             app:dongleText="@{@string/app_name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/material_toolbar" />
 
         <ImageView
             android:id="@+id/image_view"

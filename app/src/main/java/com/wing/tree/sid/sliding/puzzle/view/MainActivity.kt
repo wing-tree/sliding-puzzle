@@ -26,15 +26,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-        hideSystemUi()
+        hideSystemBars()
 
         with(viewBinding) {
             with(navHostFragment) {
                 setPadding(
                     paddingLeft,
-                    paddingTop
-                        .plus(statusBarHeight)
-                        .plus(navigationBarHeight),
+                    paddingTop.plus(statusBarHeight),
                     paddingRight,
                     paddingBottom
                         .plus(statusBarHeight)
@@ -46,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun hideSystemUi() {
+    private fun hideSystemBars() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             window.setDecorFitsSystemWindows(false)
 

@@ -9,6 +9,7 @@ import com.wing.tree.sid.core.constant.ONE
 import com.wing.tree.sid.core.constant.TWO
 import com.wing.tree.sid.core.constant.ZERO
 import com.wing.tree.sid.sliding.puzzle.databinding.FragmentRankingPagerBinding
+import com.wing.tree.sid.sliding.puzzle.extension.popBackStack
 import com.wing.tree.sid.sliding.puzzle.extension.setDongleText
 import com.wing.tree.sid.sliding.puzzle.view.adapter.RankingPagerAdapter
 
@@ -34,6 +35,10 @@ class RankingPagerFragment : BaseFragment<FragmentRankingPagerBinding>() {
         super.onViewCreated(view, savedInstanceState)
 
         with(binding) {
+            materialToolbar.setNavigationOnClickListener {
+                popBackStack()
+            }
+
             rankingPager.apply {
                 adapter = rankingPagerAdapter
                 registerOnPageChangeCallback(onPageChangeCallback)

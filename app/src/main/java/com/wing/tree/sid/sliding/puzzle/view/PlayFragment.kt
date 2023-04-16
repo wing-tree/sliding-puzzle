@@ -103,6 +103,10 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
     }
 
     private fun FragmentPlayBinding.bind() {
+        materialToolbar.setNavigationOnClickListener {
+            popBackStack()
+        }
+
         tiles.apply {
             val size = navArgs.size
             val itemCount = size.int.inc()
