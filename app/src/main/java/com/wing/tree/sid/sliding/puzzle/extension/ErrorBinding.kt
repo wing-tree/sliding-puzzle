@@ -11,7 +11,7 @@ fun ErrorBinding.hide() {
 fun ErrorBinding.show(cause: Throwable? = null) {
     fadeIn().withStartAction {
         cause?.message?.let {
-            message.text = it
+            message.setDongleText(it)
         }
 
         visible()

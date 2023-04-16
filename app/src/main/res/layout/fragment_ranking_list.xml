@@ -23,10 +23,11 @@
         android:layout_width="@dimen/none"
         android:layout_height="@dimen/none"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/ranking_list"
-        app:layout_constraintEnd_toEndOf="@+id/ranking_list"
-        app:layout_constraintStart_toStartOf="@+id/ranking_list"
-        app:layout_constraintTop_toTopOf="@+id/ranking_list" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/loading"
