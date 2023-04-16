@@ -13,9 +13,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.FullScreenContentCallback
-import com.wing.tree.sid.core.constant.EMPTY
-import com.wing.tree.sid.core.constant.ONE_THOUSAND
-import com.wing.tree.sid.core.constant.TEN
+import com.wing.tree.sid.core.constant.*
+import com.wing.tree.sid.core.extension.long
 import com.wing.tree.sid.domain.entity.Nickname
 import com.wing.tree.sid.sliding.puzzle.R
 import com.wing.tree.sid.sliding.puzzle.ad.InterstitialAdLoader
@@ -79,23 +78,13 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
                         is ResultViewState.Content -> with(binding) {
                             when (viewState) {
                                 is ResultViewState.Content.Ranked -> with(ranked) {
-                                    fadeIn(
-                                        listener = object : AnimatorListenerAdapter() {
-                                            override fun onAnimationStart(animation: Animator) {
-                                                bind(viewState)
-                                            }
-                                        }
-                                    )
+                                    bind(viewState)
+                                    fadeIn(startDelay = ONE_HUNDRED.long)
                                 }
 
                                 is ResultViewState.Content.NotRanked -> with(notRanked) {
-                                    fadeIn(
-                                        listener = object : AnimatorListenerAdapter() {
-                                            override fun onAnimationStart(animation: Animator) {
-                                                bind(viewState)
-                                            }
-                                        }
-                                    )
+                                    bind(viewState)
+                                    fadeIn(startDelay = ONE_HUNDRED.long)
                                 }
                             }
                         }
