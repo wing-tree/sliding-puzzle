@@ -17,7 +17,9 @@ import javax.inject.Singleton
 abstract class RepositoryModule {
     @Binds
     @Singleton
-    abstract fun bindsPreferencesRepository(preferencesRepository: PreferencesRepositoryImpl): PreferencesRepository
+    abstract fun bindsPreferencesRepository(
+        preferencesRepository: PreferencesRepositoryImpl
+    ): PreferencesRepository
 
     @Binds
     @Singleton

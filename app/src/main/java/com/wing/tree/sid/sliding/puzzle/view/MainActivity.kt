@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.ads.AdSize
 import com.wing.tree.sid.sliding.puzzle.databinding.ActivityMainBinding
 import com.wing.tree.sid.sliding.puzzle.extension.bannerAd
 import com.wing.tree.sid.sliding.puzzle.extension.navigationBarHeight
 import com.wing.tree.sid.sliding.puzzle.extension.statusBarHeight
+import com.wing.tree.sid.sliding.puzzle.viewModel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -18,6 +20,8 @@ class MainActivity : AppCompatActivity() {
     private val viewBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
+
+    private val viewModel by viewModels<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
