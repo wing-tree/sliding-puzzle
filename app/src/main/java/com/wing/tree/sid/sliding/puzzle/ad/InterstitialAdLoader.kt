@@ -21,7 +21,7 @@ class InterstitialAdLoader {
 
     fun load(
         context: Context,
-        loadCallback: InterstitialAdLoadCallback,
+        loadCallback: InterstitialAdLoadCallback? = null,
     ) {
         val adRequest = AdRequest.Builder().build()
         val adUnitId = context.string(
@@ -43,12 +43,12 @@ class InterstitialAdLoader {
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
                     clear()
-                    loadCallback.onAdFailedToLoad(adError)
+                    loadCallback?.onAdFailedToLoad(adError)
                 }
 
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
                     setInterstitialAd(interstitialAd)
-                    loadCallback.onAdLoaded(interstitialAd)
+                    loadCallback?.onAdLoaded(interstitialAd)
                 }
             }
         )
@@ -56,23 +56,31 @@ class InterstitialAdLoader {
 
     fun show(
         activity: Activity,
-        fullScreenContentCallback: FullScreenContentCallback,
+        fullScreenContentCallback: FullScreenContentCallback? = null,
     ) {
         interstitialAd?.let {
             it.fullScreenContentCallback = object : FullScreenContentCallback() {
-                override fun onAdClicked() = fullScreenContentCallback.onAdClicked()
+                override fun onAdClicked() {
+                    fullScreenContentCallback?.onAdClicked()
+                }
+
                 override fun onAdDismissedFullScreenContent() {
                     clear()
-                    fullScreenContentCallback.onAdDismissedFullScreenContent()
+                    fullScreenContentCallback?.onAdDismissedFullScreenContent()
                 }
 
                 override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                     clear()
-                    fullScreenContentCallback.onAdFailedToShowFullScreenContent(adError)
+                    fullScreenContentCallback?.onAdFailedToShowFullScreenContent(adError)
                 }
 
-                override fun onAdImpression() = fullScreenContentCallback.onAdImpression()
-                override fun onAdShowedFullScreenContent() = fullScreenContentCallback.onAdShowedFullScreenContent()
+                override fun onAdImpression() {
+                    fullScreenContentCallback?.onAdImpression()
+                }
+
+                override fun onAdShowedFullScreenContent() {
+                    fullScreenContentCallback?.onAdShowedFullScreenContent()
+                }
             }
 
             it.show(activity)

@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreferencesRepository {
     fun getFirstLaunchedAt(): Flow<Long?>
-    fun isAdFree(): Flow<Boolean>
-    suspend fun putAdFree(isAdFree: Boolean)
+    fun isAdFreePurchased(): Flow<Boolean>
+    suspend fun putAdFreePurchased(isAdFree: Boolean)
     suspend fun putFirstLaunchedAt(firstLaunchedAt: Long)
 }

@@ -12,9 +12,8 @@ import com.wing.tree.sid.core.useCase.propagate
 import com.wing.tree.sid.data.mapper.SizeMapper
 import com.wing.tree.sid.domain.entity.Nickname
 import com.wing.tree.sid.domain.entity.Ranking
-import com.wing.tree.sid.domain.useCase.CheckRankingCriteriaUseCase
-import com.wing.tree.sid.domain.useCase.RegisterForRankingUseCase
-import com.wing.tree.sid.domain.useCase.ResetPuzzleUseCase
+import com.wing.tree.sid.domain.service.AdFreeChecker
+import com.wing.tree.sid.domain.useCase.*
 import com.wing.tree.sid.sliding.puzzle.firebase.FirebaseAuth
 import com.wing.tree.sid.sliding.puzzle.model.Rank
 import com.wing.tree.sid.sliding.puzzle.model.RankingParameter
@@ -36,6 +35,7 @@ class ResultViewModel @Inject constructor(
     private val registerForRankingUseCase: RegisterForRankingUseCase,
     private val resetPuzzleUseCase: ResetPuzzleUseCase,
     private val sizeMapper: SizeMapper,
+    val adFreeChecker: AdFreeChecker,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val _viewState = MutableStateFlow<ResultViewState>(ResultViewState.Loading)

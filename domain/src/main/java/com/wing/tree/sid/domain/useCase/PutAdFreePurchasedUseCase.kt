@@ -6,11 +6,11 @@ import com.wing.tree.sid.domain.repository.PreferencesRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
 
-class PutAdFreeUseCase @Inject constructor(
+class PutAdFreePurchasedUseCase @Inject constructor(
     private val preferencesRepository: PreferencesRepository,
     @IOCoroutineDispatcher coroutineDispatcher: CoroutineDispatcher
 ) : CoroutineUseCase<Boolean, Unit>(coroutineDispatcher) {
     override suspend fun execute(parameter: Boolean) {
-        preferencesRepository.putAdFree(parameter)
+        preferencesRepository.putAdFreePurchased(parameter)
     }
 }

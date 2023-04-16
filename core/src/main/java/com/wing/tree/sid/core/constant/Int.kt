@@ -18,3 +18,5 @@ const val THIRTY = 30
 const val THIRTY_FIVE = 35
 const val ONE_HUNDRED = 100
 const val ONE_THOUSAND = 1000
+
+const val AD_FREE_GRACE_PERIOD_IN_HOURS = 72

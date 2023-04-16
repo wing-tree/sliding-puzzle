@@ -11,18 +11,18 @@ class PreferencesRepositoryImpl @Inject constructor(
 ) : PreferencesRepository {
     private object Name {
         private const val OBJECT_NAME = "Name"
-        const val IS_AD_FREE = "$OBJECT_NAME.IS_AD_FREE"
+        const val IS_AD_FREE_PURCHASED = "$OBJECT_NAME.IS_AD_FREE"
         const val FIRST_LAUNCHED_AT = "$OBJECT_NAME.FIRST_LAUNCHED_AT"
     }
 
     private object Key {
-        val isAdFree = booleanPreferencesKey(Name.IS_AD_FREE)
+        val isAdFreePurchased = booleanPreferencesKey(Name.IS_AD_FREE_PURCHASED)
         val firstLaunchedAt = longPreferencesKey(Name.FIRST_LAUNCHED_AT)
     }
 
-    override fun isAdFree(): Flow<Boolean> {
+    override fun isAdFreePurchased(): Flow<Boolean> {
         return dataStore.data.map {
-            it[Key.isAdFree] ?: false
+            it[Key.isAdFreePurchased] ?: false
         }
     }
 
@@ -32,9 +32,9 @@ class PreferencesRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun putAdFree(isAdFree: Boolean) {
+    override suspend fun putAdFreePurchased(isAdFree: Boolean) {
         dataStore.edit {
-            it[Key.isAdFree] = isAdFree
+            it[Key.isAdFreePurchased] = isAdFree
         }
     }
 

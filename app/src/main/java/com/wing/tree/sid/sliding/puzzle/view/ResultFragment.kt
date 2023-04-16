@@ -11,12 +11,14 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.navigation.fragment.findNavController
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.FullScreenContentCallback
 import com.wing.tree.sid.core.constant.EMPTY
 import com.wing.tree.sid.core.constant.ONE_THOUSAND
 import com.wing.tree.sid.core.constant.TEN
 import com.wing.tree.sid.domain.entity.Nickname
 import com.wing.tree.sid.sliding.puzzle.R
+import com.wing.tree.sid.sliding.puzzle.ad.InterstitialAdLoader
 import com.wing.tree.sid.sliding.puzzle.databinding.FragmentResultBinding
 import com.wing.tree.sid.sliding.puzzle.databinding.NotRankedBinding
 import com.wing.tree.sid.sliding.puzzle.databinding.RankedBinding
@@ -30,6 +32,10 @@ import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 class ResultFragment : BaseFragment<FragmentResultBinding>() {
+    private val interstitialAdLoader by lazy {
+        InterstitialAdLoader()
+    }
+
     private val viewModel by viewModels<ResultViewModel>()
 
     override fun inflate(inflater: LayoutInflater, container: ViewGroup?): FragmentResultBinding {
@@ -41,7 +47,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
 
         with(binding) {
             home.setOnClickListener {
-                findNavController().popBackStack()
+                finish()
             }
         }
 
@@ -89,6 +95,33 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
                 }
             }
         }
+
+        lifecycleScope.launch {
+            if (viewModel.adFreeChecker().not()) {
+                interstitialAdLoader.load(requireContext())
+            }
+        }
+    }
+
+    private fun finish() {
+        lifecycleScope.launch {
+            if (viewModel.adFreeChecker()) {
+                popBackStack()
+            } else {
+                interstitialAdLoader.show(
+                    activity = requireActivity(),
+                    fullScreenContentCallback = object : FullScreenContentCallback() {
+                        override fun onAdShowedFullScreenContent() {
+                            popBackStack()
+                        }
+
+                        override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                            popBackStack()
+                        }
+                    }
+                )
+            }
+        }
     }
 
     private fun Long.format(): String {
@@ -133,7 +166,7 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
                         Toast.makeText(requireActivity(), it.message, Toast.LENGTH_SHORT).show()
                     }
 
-                    findNavController().popBackStack()
+                    finish()
                 }
             }
         }
