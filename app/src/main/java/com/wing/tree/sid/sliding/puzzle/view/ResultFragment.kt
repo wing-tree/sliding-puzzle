@@ -50,6 +50,14 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
                 finish()
             }
 
+            lottieAnimationView.addAnimatorListener(
+                object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        lottieAnimationView.fadeOut()
+                    }
+                }
+            )
+
             home.setOnClickListener {
                 finish()
             }
