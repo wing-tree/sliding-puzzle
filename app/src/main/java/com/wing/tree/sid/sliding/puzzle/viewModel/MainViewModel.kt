@@ -8,7 +8,6 @@ import com.wing.tree.sid.domain.service.AdFreeService
 import com.wing.tree.sid.domain.service.FirstLaunchedAtService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,18 +20,15 @@ class MainViewModel @Inject constructor(
 
     init {
         viewModelScope.launch(ioDispatcher) {
-            val firstLaunchedAt = System.currentTimeMillis()
-            val result = firstLaunchedAtService
-                .get()
-                .first()
+            firstLaunchedAtService.collect {
+                if (it is Result.Complete) {
+                    when (it) {
+                        is Result.Complete.Success -> if (it.data.isNull()) {
+                            firstLaunchedAtService.put(System.currentTimeMillis())
+                        }
 
-            if (result is Result.Complete) {
-                when (result) {
-                    is Result.Complete.Success -> if (result.data.isNull()) {
-                        firstLaunchedAtService.put(firstLaunchedAt)
+                        is Result.Complete.Failure -> firstLaunchedAtService.put(System.currentTimeMillis())
                     }
-
-                    is Result.Complete.Failure -> firstLaunchedAtService.put(firstLaunchedAt)
                 }
             }
         }
