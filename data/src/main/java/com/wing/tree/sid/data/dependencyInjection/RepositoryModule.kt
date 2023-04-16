@@ -1,7 +1,9 @@
 package com.wing.tree.sid.data.dependencyInjection
 
+import com.wing.tree.sid.data.repository.PreferencesRepositoryImpl
 import com.wing.tree.sid.data.repository.PuzzleRepositoryImpl
 import com.wing.tree.sid.data.repository.RankingRepositoryImpl
+import com.wing.tree.sid.domain.repository.PreferencesRepository
 import com.wing.tree.sid.domain.repository.PuzzleRepository
 import com.wing.tree.sid.domain.repository.RankingRepository
 import dagger.Binds
@@ -13,6 +15,10 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 abstract class RepositoryModule {
+    @Binds
+    @Singleton
+    abstract fun bindsPreferencesRepository(preferencesRepository: PreferencesRepositoryImpl): PreferencesRepository
+
     @Binds
     @Singleton
     abstract fun bindsPuzzleRepository(puzzleRepository: PuzzleRepositoryImpl): PuzzleRepository
