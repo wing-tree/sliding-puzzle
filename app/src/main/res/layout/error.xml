@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
@@ -30,10 +29,9 @@
             android:id="@+id/retry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:fontFamily="@font/font_family_dongle"
-            android:textAppearance="@style/HeadlineMedium"
-            app:dongleText="@{@string/retry}" />
+            android:text="@string/retry"
+            android:textAppearance="@style/HeadlineMedium" />
 
     </LinearLayout>
 

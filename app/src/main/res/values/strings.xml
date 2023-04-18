@@ -10,4 +10,5 @@
     <string name="reset">Reset</string>
     <string name="retry">Retry</string>
     <string name="solved">%d-Puzzle solved</string>
+    <string name="slash">/</string>
 </resources>

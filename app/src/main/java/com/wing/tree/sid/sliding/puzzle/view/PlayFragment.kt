@@ -66,7 +66,7 @@ class PlayFragment : BaseFragment<FragmentPlayBinding>() {
         tileListAdapter.submitList(puzzle.tiles)
 
         with(binding) {
-            playTime.setDongleText(text)
+            playTime.text = text
 
             if (tiles.isNotVisible) {
                 tiles.fadeIn(startDelay = ONE_HUNDRED.long)

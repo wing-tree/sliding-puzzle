@@ -89,7 +89,7 @@ fun ViewBinding.bannerAd(parent: ViewGroup, adSize: AdSize) {
         R.string.banner_ad_unit_id
     }
 
-    parent.gone()
+    parent.invisible()
 
     AdView(context).apply {
         val adView = this

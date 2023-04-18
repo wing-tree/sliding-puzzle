@@ -144,14 +144,12 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
     private fun NotRankedBinding.bind(viewState: ResultViewState.Content.NotRanked) {
         val rankingParameter = viewState.rankingParameter
 
-        solved.setDongleText(getString(R.string.solved, rankingParameter.size))
-        playTime.setDongleText(rankingParameter.playTime.format())
+        solved.text = getString(R.string.solved, rankingParameter.size)
+        playTime.text =rankingParameter.playTime.format()
     }
 
     private fun RankedBinding.bind(viewState: ResultViewState.Content.Ranked) {
         val rankingParameter = viewState.rankingParameter
-
-        nickname.editText?.setDonglePadding()
 
         registerForRanking.setOnClickListener {
             val editText = nickname.editText
@@ -172,8 +170,8 @@ class ResultFragment : BaseFragment<FragmentResultBinding>() {
             }
         }
 
-        rank.setDongleText(getString(R.string.ranked, "${viewState.rank}"))
-        solved.setDongleText(getString(R.string.solved, rankingParameter.size))
-        playTime.setDongleText(rankingParameter.playTime.format())
+        rank.text = getString(R.string.ranked, "${viewState.rank}")
+        solved.text = getString(R.string.solved, rankingParameter.size)
+        playTime.text = rankingParameter.playTime.format()
     }
 }

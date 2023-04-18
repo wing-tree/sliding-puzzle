@@ -10,13 +10,12 @@ import com.wing.tree.sid.core.constant.TWO
 import com.wing.tree.sid.core.constant.ZERO
 import com.wing.tree.sid.sliding.puzzle.databinding.FragmentRankingPagerBinding
 import com.wing.tree.sid.sliding.puzzle.extension.popBackStack
-import com.wing.tree.sid.sliding.puzzle.extension.setDongleText
 import com.wing.tree.sid.sliding.puzzle.view.adapter.RankingPagerAdapter
 
 class RankingPagerFragment : BaseFragment<FragmentRankingPagerBinding>() {
     private val onPageChangeCallback = object : OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            binding.currentPage.setDongleText("${position.inc()}")
+            binding.currentPage.text = "${position.inc()}"
         }
     }
 
@@ -55,8 +54,8 @@ class RankingPagerFragment : BaseFragment<FragmentRankingPagerBinding>() {
                 }
             }
 
-            currentPage.setDongleText("$ONE")
-            pageCount.setDongleText("${RankingPagerAdapter.ITEM_COUNT}")
+            currentPage.text = "$ONE"
+            pageCount.text = "${RankingPagerAdapter.ITEM_COUNT}"
 
             next.setOnClickListener {
                 val currentItem = rankingPager.currentItem

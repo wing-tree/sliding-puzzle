@@ -22,8 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center"
+            android:text="@string/app_name"
             android:textAppearance="@style/DisplayMedium"
-            app:dongleText="@{@string/app_name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/material_toolbar" />
@@ -57,7 +57,7 @@
             android:id="@+id/ranking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:dongleText="@{@string/ranking}"
+            android:text="@string/ranking"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
