@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="puzzle">퍼즐</string>
+    <string name="ranking">랭킹</string>
+    <string name="register_for_ranking">랭킹 등록</string>
+    <string name="reset">리셋</string>
+    <string name="retry">재시도</string>
 </resources>
