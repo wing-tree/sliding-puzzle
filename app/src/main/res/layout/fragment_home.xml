@@ -30,8 +30,8 @@
 
         <ImageView
             android:id="@+id/image_view"
-            android:layout_width="144dp"
-            android:layout_height="144dp"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintBottom_toTopOf="@+id/sizes"
             app:layout_constraintEnd_toEndOf="parent"
@@ -42,7 +42,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/sizes"
-            android:layout_width="0dp"
+            android:layout_width="@dimen/none"
             android:layout_height="wrap_content"
             android:clipChildren="false"
             android:clipToPadding="false"
